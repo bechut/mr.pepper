@@ -26,5 +26,7 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_APP_TODO_47999 }}'
-          projectId: app-todo-47999
+          projectId: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
+          apiKey: ${{ secrets.VITE_FIREBASE_API_KEY }}
+          appId: ${{ secrets.VITE_FIREBASE_APP_ID }}
         
