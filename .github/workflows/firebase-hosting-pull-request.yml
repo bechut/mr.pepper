@@ -5,7 +5,7 @@ name: Deploy to Firebase Hosting on PR
 'on': pull_request
 
 env:
-  VITE_FIREBASE_API_KEY: ${{ secrets.KEYSTORE_BASE64 }}
+  VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
   VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}
   VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID }}
   VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}
@@ -27,5 +27,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_APP_TODO_47999 }}'
           projectId: app-todo-47999
-          dotenv_path: .env
         
