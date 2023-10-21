@@ -31,4 +31,3 @@ jobs:
           channelId: live
           projectId: app-todo-47999
           dotenv_path: .env
-      - run: echo "$VITE_FIREBASE_API_KEY"
