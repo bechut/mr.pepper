@@ -14,12 +14,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <StrictMode>
-    <Provider store={reduxStore}>
-      <I18nextProvider i18n={i18next}>
+    <I18nextProvider i18n={i18next}>
+      <Provider store={reduxStore}>
         <CommonComponent>
           <Routers />
         </CommonComponent>
-      </I18nextProvider>
-    </Provider>
+      </Provider>
+    </I18nextProvider>
   </StrictMode>
 );
