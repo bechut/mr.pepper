@@ -1,4 +1,4 @@
 export default {
-  "sample.title": 'Sample',
-  "sample.title1": 'Sample',
+  "sample:title?Hello1": 'Sample',
+  "sample:title?Hello2": 'Sample',
 };

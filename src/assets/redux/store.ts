@@ -1,18 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
-
-import { routes } from '../../routers/routes';
-
-const reducers = routes
-  .map((route) => route.reducer)
-  .reduce((_, item) => ({ [item.name]: item.reducer }), {});
-
-export const actions = routes
-  .map((route) => route.reducer)
-  .reduce((_, item) => ({ [item.name]: item.actions }), {});
+import routerSlice from '../../routers/reducer';
+import sampleSlice from '../../app/pages/sample/reducer';
 
 export const reduxStore = configureStore({
-  reducer: reducers,
+  reducer: {
+    routerSlice: routerSlice.reducer,
+    sampleSlice: sampleSlice.reducer,
+  },
 });
+
+export const actions = {
+  routerSlice: routerSlice.actions,
+  sampleSlice: sampleSlice.actions,
+}
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof reduxStore.getState>;
