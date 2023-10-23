@@ -22,6 +22,13 @@ i18next.init({
       translation: vi,
     },
   },
+  parseMissingKeyHandler: (key) => {
+    return key
+      .split('?')[1]
+      .split('_')
+      .map((str: string) => str[0].toUpperCase() + str.substring(1))
+      .join(' ');
+  },
 });
 
 export default i18next;
