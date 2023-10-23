@@ -1,10 +1,13 @@
 import { useEffect } from 'react';
-import sample from '../app/pages/sample/route';
-import signUp from '../app/pages/sign-up//route';
+
 import { useTranslation } from 'react-i18next';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { FloatButton } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
+
+import sample from '../app/pages/sample/route';
+import signUp from '../app/pages/sign-up/route';
+import login from '../app/pages/login/route';
 
 const Wrapper: React.FC<any> = (props) => {
   const { i18n } = useTranslation();
@@ -38,7 +41,7 @@ const Wrapper: React.FC<any> = (props) => {
   );
 };
 
-export const routes = [sample, signUp].map((route) => {
+export const routes = [sample, signUp, login].map((route) => {
   const Elem = route.element;
   return {
     ...route,
