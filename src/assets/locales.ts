@@ -1,8 +1,15 @@
 import i18next from 'i18next';
-import { routes } from '../routers/routes';
 
-const en = routes.map((route) => route.en).reduce((_, item) => item, {});
-const vi = routes.map((route) => route.vi).reduce((_, item) => item, {});
+import samplepEn from '../app/pages/sample//locale/en';
+import sampleVi from '../app/pages/sample/locale/vi';
+import signupEn from '../app/pages/sign-up/locale/en';
+import signupVi from '../app/pages/sign-up/locale/vi';
+
+const langEn = [samplepEn, signupEn];
+const langVi = [sampleVi, signupVi];
+
+const en = langEn.reduce((_, item) => item, {});
+const vi = langVi.reduce((_, item) => item, {});
 
 i18next.init({
   debug: true,
