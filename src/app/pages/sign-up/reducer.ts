@@ -3,7 +3,7 @@ import {
   createAsyncThunk,
   createSlice,
 } from '@reduxjs/toolkit';
-import { ISession, ISignup, InitISession } from './@types';
+import { ISignup } from './@types';
 import {
   User,
   UserCredential,
@@ -19,10 +19,9 @@ import i18next from '../../../assets/locales';
 
 type IState = {
   loading: boolean;
-  session: ISession;
 };
 
-const initialState: IState = { loading: false, session: InitISession };
+const initialState: IState = { loading: false };
 
 export const thunkSignUp = createAsyncThunk('signup', async (arg: ISignup) => {
   const { email, password, username } = arg;
@@ -67,8 +66,8 @@ export const thunkSignUp = createAsyncThunk('signup', async (arg: ISignup) => {
     });
 });
 
-const authSlice = createSlice({
-  name: 'authSlice',
+const signupSlice = createSlice({
+  name: 'signupSlice',
   initialState,
   reducers: {},
   extraReducers: (buider: ActionReducerMapBuilder<IState>) => {
@@ -100,4 +99,4 @@ const authSlice = createSlice({
   },
 });
 
-export default authSlice;
+export default signupSlice;
