@@ -2,14 +2,12 @@ import i18next from 'i18next';
 
 import samplepEn from '../app/pages/sample//locale/en';
 import sampleVi from '../app/pages/sample/locale/vi';
+
 import signupEn from '../app/pages/sign-up/locale/en';
 import signupVi from '../app/pages/sign-up/locale/vi';
 
-const langEn = [samplepEn, signupEn];
-const langVi = [sampleVi, signupVi];
-
-const en = langEn.reduce((_, item) => item, {});
-const vi = langVi.reduce((_, item) => item, {});
+import loginEn from '../app/pages/login/locale/en';
+import loginVi from '../app/pages/login/locale/vi';
 
 i18next.init({
   debug: true,
@@ -23,10 +21,18 @@ i18next.init({
   },
   resources: {
     en: {
-      translation: en,
+      translation: {
+        ...samplepEn,
+        ...signupEn,
+        ...loginEn,
+      },
     },
     vi: {
-      translation: vi,
+      translation: {
+        ...sampleVi,
+        ...signupVi,
+        ...loginVi,
+      },
     },
   },
   parseMissingKeyHandler: (key) => {
