@@ -8,6 +8,7 @@ import { GlobalOutlined } from '@ant-design/icons';
 import sample from '../app/pages/sample/route';
 import signUp from '../app/pages/sign-up/route';
 import login from '../app/pages/login/route';
+import home from '../app/pages/homepage//route';
 
 const Wrapper: React.FC<any> = (props) => {
   const { i18n } = useTranslation();
@@ -41,7 +42,7 @@ const Wrapper: React.FC<any> = (props) => {
   );
 };
 
-export const routes = [sample, signUp, login].map((route) => {
+export const routes = [sample, signUp, login, home].map((route) => {
   const Elem = route.element;
   return {
     ...route,

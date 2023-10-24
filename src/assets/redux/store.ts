@@ -4,17 +4,22 @@ import sampleSlice from '../../app/pages/sample/reducer';
 import signupSlice, { thunkSignUp } from '../../app/pages/sign-up/reducer';
 import loginSlice, { thunkLogin } from '../../app/pages/login/reducer';
 
+import authLayoutSlice, {
+  thunkSearchFriendByEmail,
+} from '../../app/components/auth-layout/reducer';
+
 export const reduxStore = configureStore({
   reducer: {
     routerSlice: routerSlice.reducer,
     sampleSlice: sampleSlice.reducer,
     signupSlice: signupSlice.reducer,
     loginSlice: loginSlice.reducer,
+    authLayoutSlice: authLayoutSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-  getDefaultMiddleware({
-    serializableCheck: false,
-  }),
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export const actions = {
@@ -22,6 +27,7 @@ export const actions = {
   sampleSlice: sampleSlice.actions,
   signupSlice: signupSlice.actions,
   loginSlice: loginSlice.actions,
+  authLayoutSlice: authLayoutSlice.actions,
 };
 
 export const thunks = {
@@ -29,8 +35,11 @@ export const thunks = {
     signUp: thunkSignUp,
   },
   loginSlice: {
-    login: thunkLogin
-  }
+    login: thunkLogin,
+  },
+  authLayoutSlice: {
+    searchFriendByEmail: thunkSearchFriendByEmail,
+  },
 };
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
