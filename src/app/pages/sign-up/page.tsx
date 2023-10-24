@@ -13,11 +13,11 @@ const Page: React.FC<any> = () => {
   const [form] = Form.useForm();
 
   const authStates = useSelector(
-    (states: RootState) => states.authSlice,
+    (states: RootState) => states.signupSlice,
     shallowEqual
   );
   const onSignup = (values: ISignup) => {
-    dispatch(thunks.authSlice.signUp(values));
+    dispatch(thunks.signupSlice.signUp(values));
   };
 
   return (
