@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import routerSlice from '../../routers/reducer';
 import sampleSlice from '../../app/pages/sample/reducer';
-import authSlice, { thunkSignUp } from '../../app/pages/sign-up/reducer';
+import signupSlice, { thunkSignUp } from '../../app/pages/sign-up/reducer';
 import loginSlice, { thunkLogin } from '../../app/pages/login/reducer';
 
 export const reduxStore = configureStore({
   reducer: {
     routerSlice: routerSlice.reducer,
     sampleSlice: sampleSlice.reducer,
-    authSlice: authSlice.reducer,
+    signupSlice: signupSlice.reducer,
     loginSlice: loginSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -20,12 +20,12 @@ export const reduxStore = configureStore({
 export const actions = {
   routerSlice: routerSlice.actions,
   sampleSlice: sampleSlice.actions,
-  authSlice: authSlice.actions,
+  signupSlice: signupSlice.actions,
   loginSlice: loginSlice.actions,
 };
 
 export const thunks = {
-  authSlice: {
+  signupSlice: {
     signUp: thunkSignUp,
   },
   loginSlice: {
