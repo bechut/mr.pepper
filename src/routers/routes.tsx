@@ -8,6 +8,7 @@ import { GlobalOutlined } from '@ant-design/icons';
 import sample from '../app/pages/sample/route';
 import signUp from '../app/pages/sign-up/route';
 import login from '../app/pages/login/route';
+import home from '../app/pages/homepage//route';
 
 const Wrapper: React.FC<any> = (props) => {
   const { i18n } = useTranslation();
@@ -27,7 +28,7 @@ const Wrapper: React.FC<any> = (props) => {
         type="primary"
         style={{ right: 24 }}
         icon={<GlobalOutlined />}
-        badge={{ count: "v1.0.1" }}
+        badge={{ count: "v2.0.0" }}
       >
         <FloatButton
           onClick={() => navagate(location.pathname.replace('/vi', '/en'))}
@@ -42,7 +43,7 @@ const Wrapper: React.FC<any> = (props) => {
   );
 };
 
-export const routes = [sample, signUp, login].map((route) => {
+export const routes = [sample, signUp, login, home].map((route) => {
   const Elem = route.element;
   return {
     ...route,
