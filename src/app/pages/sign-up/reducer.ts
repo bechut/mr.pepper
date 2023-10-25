@@ -19,9 +19,10 @@ import i18next from '../../../assets/locales';
 
 type IState = {
   loading: boolean;
+  success: boolean;
 };
 
-const initialState: IState = { loading: false };
+const initialState: IState = { loading: false, success: false };
 
 export const thunkSignUp = createAsyncThunk('signup', async (arg: ISignup) => {
   const { email, password, username } = arg;
@@ -69,7 +70,12 @@ export const thunkSignUp = createAsyncThunk('signup', async (arg: ISignup) => {
 const signupSlice = createSlice({
   name: 'signupSlice',
   initialState,
-  reducers: {},
+  reducers: {
+    reset: (state: IState) => {
+      state.success = false;
+      state.loading = false;
+    }
+  },
   extraReducers: (buider: ActionReducerMapBuilder<IState>) => {
     // addCase before addMatcher
     buider.addMatcher(
@@ -85,7 +91,8 @@ const signupSlice = createSlice({
         return action.type.indexOf('fulfilled') !== -1;
       },
       (state: IState) => {
-        state.loading = false;
+        state.loading = true;
+        state.success = true;
       }
     );
     buider.addMatcher(

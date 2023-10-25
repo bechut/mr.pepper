@@ -1,16 +1,24 @@
-import React from 'react';
-import { AppDispatch, RootState, thunks } from '../../../assets/redux/store';
+import React, { useEffect } from 'react';
+import {
+  AppDispatch,
+  RootState,
+  actions,
+  thunks,
+} from '../../../assets/redux/store';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Button, Card, Form, Input } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { ISignup } from './@types';
+
+let clickCount = 0;
 
 const Page: React.FC<any> = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const authStates = useSelector(
     (states: RootState) => states.signupSlice,
@@ -18,7 +26,26 @@ const Page: React.FC<any> = () => {
   );
   const onSignup = (values: ISignup) => {
     dispatch(thunks.signupSlice.signUp(values));
+    clickCount = 1;
   };
+  const { locale } = useParams();
+
+  useEffect(() => {
+    if (!authStates.loading && clickCount > 0) {
+      form.resetFields();
+      clickCount = 0;
+    }
+
+    if (authStates.success && clickCount > 0) {
+      form.resetFields();
+      clickCount = 0;
+
+      setTimeout(() => {
+        navigate(`/${locale}/login`);
+        dispatch(actions.signupSlice.reset());
+      }, 3000);
+    }
+  }, [authStates, form, navigate, dispatch, locale]);
 
   return (
     <div style={{ height: '100vh', position: 'relative' }}>
@@ -66,7 +93,7 @@ const Page: React.FC<any> = () => {
             {t('sign-up:form-button?sign_up')}
           </Button>
         </Form>
-        <Link to="/login">
+        <Link to={`/${locale}/login`}>
           <Button
             loading={authStates.loading}
             htmlType="button"
