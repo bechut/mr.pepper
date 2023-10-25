@@ -95,7 +95,6 @@ export const thunkLogin = createAsyncThunk(
         message: i18next.t('log-in:success-msg?login_success'),
       }))
       .catch((e) => {
-        console.log(e);
         const msg: { [key: string]: string } = {
           'Firebase: Error (auth/invalid-email).': i18next.t(
             'log-in:error-msg?email_invalid'

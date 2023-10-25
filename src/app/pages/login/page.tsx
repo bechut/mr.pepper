@@ -62,7 +62,11 @@ const Page: React.FC<any> = () => {
           >
             <Input.Password />
           </Form.Item>
-          <Button loading={loginStates.loading} htmlType="submit" type="primary">
+          <Button
+            loading={loginStates.loading}
+            htmlType="submit"
+            type="primary"
+          >
             {t('log-in:form-button?log_in')}
           </Button>
         </Form>
