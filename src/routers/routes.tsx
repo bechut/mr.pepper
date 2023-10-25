@@ -28,7 +28,7 @@ const Wrapper: React.FC<any> = (props) => {
         type="primary"
         style={{ right: 24 }}
         icon={<GlobalOutlined />}
-        badge={{ count: "v1.0.1" }}
+        badge={{ count: "v2.0.0" }}
       >
         <FloatButton
           onClick={() => navagate(location.pathname.replace('/vi', '/en'))}
