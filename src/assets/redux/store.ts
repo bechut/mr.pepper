@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import routerSlice from '../../routers/reducer';
 import sampleSlice from '../../app/pages/sample/reducer';
 import signupSlice, { thunkSignUp } from '../../app/pages/sign-up/reducer';
-import loginSlice, { thunkLogin } from '../../app/pages/login/reducer';
+import loginSlice, { thunkLogin, thunkSetSessionAsync } from '../../app/pages/login/reducer';
 
 import authLayoutSlice, {
   thunkSearchFriendByEmail,
@@ -36,6 +36,7 @@ export const thunks = {
   },
   loginSlice: {
     login: thunkLogin,
+    setSessionAsync: thunkSetSessionAsync
   },
   authLayoutSlice: {
     searchFriendByEmail: thunkSearchFriendByEmail,
