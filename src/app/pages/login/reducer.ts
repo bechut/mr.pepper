@@ -113,11 +113,26 @@ export const thunkLogin = createAsyncThunk(
   }
 );
 
+export const thunkSetSessionAsync = createAsyncThunk(
+  'set-session',
+  async (arg: { session: ISession }) => {
+    const { session } = arg;
+    return {
+      ...session,
+      user: await session.user,
+    };
+  }
+);
+
 const loginSlice = createSlice({
   name: 'sampleSlice',
   initialState,
   reducers: {},
   extraReducers: (buider: ActionReducerMapBuilder<IState>) => {
+    buider.addCase(thunkSetSessionAsync.fulfilled, (state: IState, action) => {
+      state.session = action.payload;
+    });
+    // addCase before addMatcher
     buider.addMatcher(
       (action) => {
         return action.type.indexOf('pending') !== -1;

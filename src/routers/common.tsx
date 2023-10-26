@@ -17,10 +17,12 @@ const CommonComponent: React.FC<any> = (props) => {
   useEffect(() => {
     new Promise((resolve) => {
       onMessage(getMessaging(getApp()), (payload: MessagePayload) => {
-        dispatch(actions.routerSlice.setAlert({
-          message: payload.data?.message + " " + payload.data?.description,
-          status: true
-        }))
+        dispatch(
+          actions.routerSlice.setAlert({
+            message: payload.data?.message + ' ' + payload.data?.description,
+            status: true,
+          })
+        );
         resolve(payload);
       });
     });
