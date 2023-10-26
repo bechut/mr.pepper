@@ -95,7 +95,6 @@ export const thunkLogin = createAsyncThunk(
         message: i18next.t('log-in:success-msg?login_success'),
       }))
       .catch((e) => {
-        console.log(e);
         const msg: { [key: string]: string } = {
           'Firebase: Error (auth/invalid-email).': i18next.t(
             'log-in:error-msg?email_invalid'
@@ -114,11 +113,26 @@ export const thunkLogin = createAsyncThunk(
   }
 );
 
+export const thunkSetSessionAsync = createAsyncThunk(
+  'set-session',
+  async (arg: { session: ISession }) => {
+    const { session } = arg;
+    return {
+      ...session,
+      user: await session.user,
+    };
+  }
+);
+
 const loginSlice = createSlice({
   name: 'sampleSlice',
   initialState,
   reducers: {},
   extraReducers: (buider: ActionReducerMapBuilder<IState>) => {
+    buider.addCase(thunkSetSessionAsync.fulfilled, (state: IState, action) => {
+      state.session = action.payload;
+    });
+    // addCase before addMatcher
     buider.addMatcher(
       (action) => {
         return action.type.indexOf('pending') !== -1;
