@@ -46,28 +46,20 @@ const Wrapper: React.FC<any> = (props) => {
             dispatch(thunks.loginSlice.setSessionAsync({ session }))
           );
         }
-        if (loginStates.session.email) {
-          setPageReady(true);
-        }
-      } else {
-        if (!loginStates.session.email) {
-          setPageReady(true);
-        }
       }
     });
   }, []);
 
   useEffect(() => {
-    if (
-      loginStates.session.email &&
-      location.pathname.match(routeRegxp)
-    ) {
+    if (loginStates.session.email && location.pathname.match(routeRegxp)) {
       navagate(`/${locale}/`);
     } else if (
       !loginStates.session.email &&
       !location.pathname.match(routeRegxp)
     ) {
       navagate(`/${locale}/login`);
+    } else {
+      setTimeout(() => setPageReady(true), 1000);
     }
   }, [loginStates, locale, navagate]);
 
@@ -81,7 +73,7 @@ const Wrapper: React.FC<any> = (props) => {
         type="primary"
         style={{ right: 24 }}
         icon={<GlobalOutlined />}
-        badge={{ count: 'v1.1.0' }}
+        badge={{ count: 'v1.1.1' }}
       >
         <FloatButton
           onClick={() => navagate(location.pathname.replace('/vi', '/en'))}
@@ -106,5 +98,5 @@ export const routes = [sample, signUp, login, home].map((route) => {
         <Elem />
       </Wrapper>
     ),
-      };
+  };
 });
