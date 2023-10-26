@@ -6,7 +6,7 @@ import { FloatButton } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '@mr-pepper/firebase';
-import { AppDispatch, type RootState, thunks } from '../assets/redux/store';
+import { AppDispatch, type RootState, thunks, actions } from '../assets/redux/store';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { sessionSub } from '../app/sub/session.sub';
 import { ISession } from '../app/pages/login/@types';
@@ -34,6 +34,7 @@ const Wrapper: React.FC<any> = (props) => {
 
   useEffect(() => {
     i18n.changeLanguage(locale);
+    dispatch(actions.authLayoutSlice.localeChange(locale))
   }, [locale, i18n]);
 
   useEffect(() => {

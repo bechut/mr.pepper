@@ -9,6 +9,9 @@ import signupVi from '../app/pages/sign-up/locale/vi';
 import loginEn from '../app/pages/login/locale/en';
 import loginVi from '../app/pages/login/locale/vi';
 
+import authLayoutEn from '../app/components/auth-layout/locale/en';
+import authLayoutnVi from '../app/components/auth-layout/locale/vi';
+
 i18next.init({
   debug: true,
   fallbackLng: 'en',
@@ -25,6 +28,7 @@ i18next.init({
         ...samplepEn,
         ...signupEn,
         ...loginEn,
+        ...authLayoutEn,
       },
     },
     vi: {
@@ -32,6 +36,7 @@ i18next.init({
         ...sampleVi,
         ...signupVi,
         ...loginVi,
+        ...authLayoutnVi,
       },
     },
   },
