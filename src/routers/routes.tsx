@@ -98,5 +98,5 @@ export const routes = [sample, signUp, login, home].map((route) => {
         <Elem />
       </Wrapper>
     ),
-  };
+      };
 });
