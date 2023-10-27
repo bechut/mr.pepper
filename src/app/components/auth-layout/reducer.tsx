@@ -17,6 +17,15 @@ import {
   where,
 } from 'firebase/firestore';
 import { store } from '@mr-pepper/firebase';
+import i18next from 'i18next';
+import { string } from 'yup';
+
+const validating = () => {
+  const isEmailSchema = string()
+    .email(i18next.t('auth-layout:error-msg?invalid_email'))
+    .required(i18next.t('auth-layout:error-msg?email_required'));
+  return { isEmailSchema };
+};
 
 type MenuItem = Required<MenuProps>['items'][number];
 type State = {
@@ -30,6 +39,7 @@ type State = {
   searchEmail: string;
   searchedFriend: ISession;
   addFriendPopUpVisible: boolean;
+  validating: typeof validating;
 };
 
 export function getItem(
@@ -48,18 +58,64 @@ export function getItem(
   } as MenuItem;
 }
 
-const firstMenuKeys = {
-  Home: 'Home',
-  friends: 'Friends',
-  settings: 'Settings',
+const initFirstMenu = () => {
+  const firstMenuKeys = {
+    home: 'home',
+    friends: 'friends',
+    settings: 'settings',
+  };
+
+  const firstMenu = [
+    getItem(
+      i18next.t('auth-layout:first-menu-key?home'),
+      firstMenuKeys['home'],
+      <HomeOutlined />
+    ),
+    getItem(
+      i18next.t('auth-layout:first-menu-key?friends'),
+      firstMenuKeys['friends'],
+      <TeamOutlined />
+    ),
+    getItem(
+      i18next.t('auth-layout:first-menu-key?settings'),
+      firstMenuKeys['settings'],
+      <SettingOutlined />
+    ),
+  ];
+
+  return { firstMenuKeys, firstMenu };
 };
 
-const secondMenuKeys = {
-  friends: 'Friends',
-  groups: 'Groups',
-  friendrequest: 'Friend Request',
-  profile: 'Profile',
+const initSecondMenu = () => {
+  const secondMenuKeys = {
+    friends: 'friends',
+    groups: 'groups',
+    friendrequest: 'friendrequest',
+    profile: 'profile',
+  };
+
+  const secondMenuFriendsMenu = [
+    getItem(
+      i18next.t('auth-layout:second-menu-key?friends'),
+      secondMenuKeys['friends']
+    ),
+    getItem(
+      i18next.t('auth-layout:second-menu-key?groups'),
+      secondMenuKeys['groups']
+    ),
+    getItem(
+      <Badge offset={[20, 0]} count={1}>
+        {i18next.t('auth-layout:second-menu-key?friendrequest')}
+      </Badge>,
+      secondMenuKeys['friendrequest']
+    ),
+  ];
+
+  return { secondMenuKeys, secondMenuFriendsMenu };
 };
+
+const { firstMenuKeys, firstMenu } = initFirstMenu();
+const { secondMenuKeys, secondMenuFriendsMenu } = initSecondMenu();
 
 export const thunkSearchFriendByEmail = createAsyncThunk(
   'search-friend-by-email',
@@ -84,7 +140,7 @@ export const thunkSearchFriendByEmail = createAsyncThunk(
             })),
           };
         }
-        throw new Error('User not found');
+        throw new Error(i18next.t('auth-layout:error-msg?user_not_found'));
       })
       .catch((e) => {
         throw new Error(
@@ -103,35 +159,14 @@ const initialState: State = {
 
   secondMenuKeys,
 
-  firstMenu: [
-    getItem(firstMenuKeys['Home'], firstMenuKeys['Home'], <HomeOutlined />),
-    getItem(
-      firstMenuKeys['friends'],
-      firstMenuKeys['friends'],
-      <TeamOutlined />
-    ),
-    getItem(
-      firstMenuKeys['settings'],
-      firstMenuKeys['settings'],
-      <SettingOutlined />
-    ),
-  ],
+  firstMenu,
   secondMenu: {
-    [firstMenuKeys['Home']]: <div>Home</div>,
+    [firstMenuKeys['home']]: <div>Home</div>,
     [firstMenuKeys['friends']]: <SecondMenuFriends />,
     [firstMenuKeys['settings']]: <div>settings</div>,
   },
 
-  secondMenuFriendsMenu: [
-    getItem(secondMenuKeys['friends'], secondMenuKeys['friends']),
-    getItem(secondMenuKeys['groups'], secondMenuKeys['groups']),
-    getItem(
-      <Badge offset={[20, 0]} count={1}>
-        {secondMenuKeys['friendrequest']}
-      </Badge>,
-      secondMenuKeys['friendrequest']
-    ),
-  ],
+  secondMenuFriendsMenu,
 
   pages: {
     [secondMenuKeys['friends']]: <FriendsList />,
@@ -140,6 +175,7 @@ const initialState: State = {
   searchEmail: '',
   searchedFriend: InitISession,
   addFriendPopUpVisible: false,
+  validating,
 };
 
 const layoutSlice = createSlice({
@@ -159,9 +195,17 @@ const layoutSlice = createSlice({
       state.searchEmail = action.payload;
     },
     clearSearch: (state: State) => {
-      state.searchEmail = "";
+      state.searchEmail = '';
       state.searchedFriend = InitISession;
       state.addFriendPopUpVisible = false;
+    },
+    localeChange: (state: State, action) => {
+      i18next.changeLanguage(action.payload);
+      const { firstMenu } = initFirstMenu();
+      const { secondMenuFriendsMenu } = initSecondMenu();
+      state.firstMenu = firstMenu;
+      state.secondMenuFriendsMenu = secondMenuFriendsMenu;
+      state.validating = validating;
     },
   },
   extraReducers: (buider: ActionReducerMapBuilder<State>) => {
