@@ -12,8 +12,6 @@ import {
   Input,
 } from 'antd';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-// import { AppDispatch, RootState } from '../redux';
-// import { actions, thunks } from '../redux/reducers';
 import {
   LogoutOutlined,
   MenuOutlined,
@@ -26,20 +24,15 @@ import {
   thunks,
 } from '../../../assets/redux/store';
 import AddFriendPopup from '../add-friend-popup';
-// import { auth } from '../lib/firebase';
-// import { signOut } from 'firebase/auth';
-// import FriendModal from '../components/Modal/Friend/page';
-// import { isEmailSchema } from '../validate/user';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { string } from 'yup';
-
-export const isEmailSchema = string()
-  .email('Invalid email address')
-  .required('Email required');
+import { signOut } from 'firebase/auth';
+import { auth } from '@mr-pepper/firebase';
+import { InitISession } from '../../pages/login/@types';
+import { useTranslation } from 'react-i18next';
 
 const { Header, Content, Sider } = Layout;
 
 const AuthLayout: React.FC<{ children: React.ReactNode }> = (props) => {
+  const { t } = useTranslation();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -50,19 +43,22 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = (props) => {
     shallowEqual
   );
 
+  const loginStates = useSelector(
+    (states: RootState) => states.loginSlice,
+    shallowEqual
+  );
+
   useEffect(() => {
     const { searchedFriend } = authLayoutStates;
     dispatch(
-      actions.authLayoutSlice.setAddFriendPopUpVisible(
-        !!searchedFriend.email
-      )
+      actions.authLayoutSlice.setAddFriendPopUpVisible(!!searchedFriend.email)
     );
   }, [authLayoutStates, dispatch]);
 
   const onSearch = () => {
-    const { searchEmail, searchedFriend } = authLayoutStates;
-    isEmailSchema
-      .validate(searchEmail)
+    const { searchEmail, searchedFriend, validating } = authLayoutStates;
+    validating()
+      .isEmailSchema.validate(searchEmail)
       .then(() => {
         if (searchEmail !== searchedFriend.email) {
           dispatch(
@@ -118,7 +114,9 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = (props) => {
             <Col>
               <Input
                 prefix={<UserAddOutlined />}
-                placeholder="Search by email"
+                placeholder={t(
+                  'auth-layout:search-input-label?search_by_email'
+                )}
                 onChange={(e) =>
                   dispatch(
                     actions.authLayoutSlice.setSearchEmail(e.target.value)
@@ -140,16 +138,20 @@ const AuthLayout: React.FC<{ children: React.ReactNode }> = (props) => {
                     {
                       label: (
                         <Button
-                          //   onClick={() => {
-                          //     signOut(auth);
-                          //     dispatch(thunks.auth.setSession({ session: {} }));
-                          //   }}
+                          onClick={() => {
+                            signOut(auth);
+                            dispatch(
+                              thunks.loginSlice.setSessionAsync({
+                                session: InitISession,
+                              })
+                            );
+                          }}
                           icon={<LogoutOutlined />}
                           type="link"
                           danger
                         >
-                          Log out
-                          {/* ({authStates.session.user?.email}) */}
+                          {t('auth-layout:button-label?log_out')}{' '}
+                          ({loginStates.session.email})
                         </Button>
                       ),
                       key: '0',
