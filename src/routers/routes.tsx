@@ -6,7 +6,12 @@ import { FloatButton } from 'antd';
 import { GlobalOutlined } from '@ant-design/icons';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '@mr-pepper/firebase';
-import { AppDispatch, type RootState, thunks, actions } from '../assets/redux/store';
+import {
+  AppDispatch,
+  type RootState,
+  thunks,
+  actions,
+} from '../assets/redux/store';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { sessionSub } from '../app/sub/session.sub';
 import { ISession } from '../app/pages/login/@types';
@@ -34,7 +39,7 @@ const Wrapper: React.FC<any> = (props) => {
 
   useEffect(() => {
     i18n.changeLanguage(locale);
-    dispatch(actions.authLayoutSlice.localeChange(locale))
+    dispatch(actions.authLayoutSlice.localeChange(locale));
   }, [locale, i18n]);
 
   useEffect(() => {
@@ -52,13 +57,14 @@ const Wrapper: React.FC<any> = (props) => {
   }, []);
 
   useEffect(() => {
+    const _locale = locale || 'en';
     if (loginStates.session.email && location.pathname.match(routeRegxp)) {
-      navagate(`/${locale}/`);
+      navagate(`/${_locale}/`);
     } else if (
       !loginStates.session.email &&
       !location.pathname.match(routeRegxp)
     ) {
-      navagate(`/${locale}/login`);
+      navagate(`/${_locale}/login`);
     } else {
       setTimeout(() => setPageReady(true), 1000);
     }
@@ -74,7 +80,7 @@ const Wrapper: React.FC<any> = (props) => {
         type="primary"
         style={{ right: 24 }}
         icon={<GlobalOutlined />}
-        badge={{ count: 'v2.0..0' }}
+        badge={{ count: 'v2.0.1' }}
       >
         <FloatButton
           onClick={() => navagate(location.pathname.replace('/vi', '/en'))}
@@ -91,13 +97,14 @@ const Wrapper: React.FC<any> = (props) => {
 
 export const routes = [sample, signUp, login, home].map((route) => {
   const Elem = route.element;
+
   return {
     ...route,
-    path: ':locale/' + route.path,
+    path: route.path,
     element: (
       <Wrapper>
         <Elem />
       </Wrapper>
     ),
-      };
+  };
 });
