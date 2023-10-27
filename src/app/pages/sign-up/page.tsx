@@ -7,7 +7,7 @@ import {
 } from '../../../assets/redux/store';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { Button, Card, Form, Input } from 'antd';
+import { Button, Card, Form, Input, Space } from 'antd';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { ISignup } from './@types';
@@ -68,7 +68,13 @@ const Page: React.FC<any> = () => {
           <Form.Item
             name="email"
             label={t('sign-up:form-label?email')}
-            rules={[{ required: true }]}
+            rules={[
+              { required: true, message: t('sign-up:error-msg?email_empty') },
+              {
+                type: 'email',
+                message: t('sign-up:error-msg?email_invalid_format'),
+              },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -76,7 +82,12 @@ const Page: React.FC<any> = () => {
           <Form.Item
             name="username"
             label={t('sign-up:form-label?username')}
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message: t('sign-up:error-msg?username_empty'),
+              },
+            ]}
           >
             <Input type="text" />
           </Form.Item>
@@ -84,7 +95,16 @@ const Page: React.FC<any> = () => {
           <Form.Item
             name="password"
             label={t('sign-up:form-label?password')}
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message: t('sign-up:error-msg?password_empty'),
+              },
+              {
+                min: 8,
+                message: t('sign-up:error-msg?password_length_8_characters'),
+              },
+            ]}
           >
             <Input.Password />
           </Form.Item>
@@ -93,16 +113,18 @@ const Page: React.FC<any> = () => {
             {t('sign-up:form-button?sign_up')}
           </Button>
         </Form>
-        <Link to={`/${locale}/login`}>
-          <Button
-            loading={authStates.loading}
-            htmlType="button"
-            type="link"
-            icon={<ArrowLeftOutlined />}
-          >
-            {t('log-in:form-button?log_in')}
-          </Button>
-        </Link>
+        <Space direction="vertical" style={{ margin: '8px 0' }}>
+          <Link to={`/${locale}/login`}>
+            <Button
+              loading={authStates.loading}
+              htmlType="button"
+              type="link"
+              icon={<ArrowLeftOutlined />}
+            >
+              {t('log-in:form-button?log_in')}
+            </Button>
+          </Link>
+        </Space>
       </Card>
     </div>
   );

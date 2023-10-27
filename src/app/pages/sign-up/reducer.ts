@@ -57,11 +57,18 @@ export const thunkSignUp = createAsyncThunk('signup', async (arg: ISignup) => {
         'Firebase: Error (auth/email-already-in-use).': i18next.t(
           'sign-up:error-msg?email_in_use'
         ),
+        'auth/invalid-email': i18next.t(
+          'sign-up:error-msg?email_invalid_format'
+        ),
       };
       throw new Error(
         JSON.stringify({
           status: false,
-          message: msg[e.message] || e.messasge,
+          message:
+            msg[e.message] ||
+            msg[e.code] ||
+            e.messasge ||
+            i18next.t('log-in:error-msg?unknow'),
         })
       );
     });
@@ -74,7 +81,7 @@ const signupSlice = createSlice({
     reset: (state: IState) => {
       state.success = false;
       state.loading = false;
-    }
+    },
   },
   extraReducers: (buider: ActionReducerMapBuilder<IState>) => {
     // addCase before addMatcher

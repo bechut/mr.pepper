@@ -99,12 +99,19 @@ export const thunkLogin = createAsyncThunk(
           'Firebase: Error (auth/invalid-email).': i18next.t(
             'log-in:error-msg?email_invalid'
           ),
+          'auth/invalid-email': i18next.t(
+            'sign-up:error-msg?email_invalid_format'
+          ),
+          'auth/invalid-login-credentials': i18next.t(
+            'sign-up:error-msg?pasword_invalid'
+          ),
         };
         throw new Error(
           JSON.stringify({
             status: false,
             message:
               msg[e.message] ||
+              msg[e.code] ||
               e.messasge ||
               i18next.t('log-in:error-msg?unknow'),
           })

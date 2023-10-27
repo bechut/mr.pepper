@@ -6,7 +6,6 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 export default ({ mode }: any) => {
   // Load app-level env vars to node-level env vars.
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
-  console.log(process.env)
   return defineConfig({
     cacheDir: './node_modules/.vite/mr-pepper',
 

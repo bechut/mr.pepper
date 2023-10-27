@@ -50,7 +50,13 @@ const Page: React.FC<any> = () => {
           <Form.Item
             name="email"
             label={t('sign-up:form-label?email')}
-            rules={[{ required: true }]}
+            rules={[
+              { required: true, message: t('sign-up:error-msg?email_empty') },
+              {
+                type: 'email',
+                message: t('sign-up:error-msg?email_invalid_format'),
+              },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -58,7 +64,16 @@ const Page: React.FC<any> = () => {
           <Form.Item
             name="password"
             label={t('sign-up:form-label?password')}
-            rules={[{ required: true }]}
+            rules={[
+              {
+                required: true,
+                message: t('sign-up:error-msg?password_empty'),
+              },
+              {
+                min: 8,
+                message: t('sign-up:error-msg?password_length_8_characters'),
+              },
+            ]}
           >
             <Input.Password />
           </Form.Item>
@@ -70,7 +85,7 @@ const Page: React.FC<any> = () => {
             {t('log-in:form-button?log_in')}
           </Button>
         </Form>
-        <Space direction="vertical" style={{ margin: '16px 0' }}>
+        <Space direction="vertical" style={{ margin: '8px 0' }}>
           {/* {auth.currentUser && !auth.currentUser.emailVerified ? (
             <Button
               loading={authStates.loading}
